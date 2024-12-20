@@ -8,19 +8,19 @@ at a later date you could use that information to visit the directory
 again using less memory and key strokes.
 
 Recently I heard a review of [zoxide](https://github.com/ajeetdsouza/zoxide)
- on "Linux Dev Time" (or one of the
-"Linux After Dark" series of podcasts). Intrigued, I also watched
-the (excellent) video by Dreams of Autonomy:
+on "Linux Dev Time" (or one of the "Linux After Dark" series of podcasts).
+Intrigued, I also watched the (excellent) video by Dreams of Autonomy:
 
 https://www.youtube.com/watch?v=aghxkpyRVDY&pp=ygUGem94aWRl
 
 OK... I was convinced.
 
-I saw that it worked for `bash` and friends - not really for `tcsh`.
-`tcsh` was not worth giving up for `autojump` or `zoxide`.
+I saw that it worked for `bash` and friends - not obviously for `tcsh` (I
+tried and failed). `tcsh` was not worth giving up for `autojump` or `zoxide`.
 
 So I decided to make a version of `autojump`/`zoxide` that works in `tcsh`.
-I mean... how hard can it be?
+I mean... how hard can it be? (Also, it's much more fun to write your own
+code than debug someone elses).
 
 I wrote it in pure C++-17 - it took a weekend. It worked and I was happy.
 
@@ -40,7 +40,7 @@ $ rehash
 ```
 
 
-and add the following aliases (typically one would put them in one's `~/.tcshrc` file):
+and add the following aliases (typically you would put them in your `~/.tcshrc` file):
 
 ```alias cd  'set zoch3_tmp="$cwd" ; chdir "`z-methoxy \!* | tail -1`" ; setenv OLD_DIR "$zoch3_tmp"'```
 
