@@ -23,5 +23,8 @@ One of my colleagues is a fan of Rust - and I decided to write a
 program in Rust to see what it was like - so this is that project - a
 Rust rewrite of my version of autojump/zoxide.
 
+If you want to use it, make sure that `z-methoxy` is in your path
+and add the following aliases (typically one would put them in one's ~/.tcshrc file)
+
 alias cd  'set zoch3_tmp="$cwd" ; chdir "`z-methoxy \!* | tail -1`" ; setenv OLD_DIR "$zoch3_tmp"'
 alias cdi 'set zoch3_tmp="$cwd" ; chdir "`z-methoxy --show-matches \!* | grep -v ^# | fzf | z-methoxy --cut | tail -1`" ; setenv OLD_DIR "$zoch3_tmp"'
