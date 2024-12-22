@@ -267,11 +267,8 @@ impl History {
             println!("{}", best_item.directory_name.to_str().unwrap());
         } else {
             // we found nothing, so don't go anywhere - print
-            // the current dir
-            match std::env::current_dir() {
-                Ok(cwd) => { println!("{}", cwd.to_str().unwrap()); },
-                Err(e) => {println!("# find_dir_using_history(): disasterland {}", e); }
-            }
+            // what the user typed so they see an error message
+            println!("{}", dir_set[0]);
         }
     }
 
