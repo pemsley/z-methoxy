@@ -1,0 +1,20 @@
+name: Z-methoxy Ubuntu
+
+on:
+  push:
+
+jobs:
+
+  build-z-methoxy-for-ubuntu:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - name build
+        run: cargo build --release
+
+      - name install
+        run: cargo install --path .
