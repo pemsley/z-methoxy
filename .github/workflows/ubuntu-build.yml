@@ -13,8 +13,8 @@ jobs:
 
       - uses: actions/checkout@v4
 
-      - name build
+      - name: build
         run: cargo build --release
 
-      - name install
+      - name: install
         run: cargo install --path .
