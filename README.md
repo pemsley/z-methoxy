@@ -28,10 +28,10 @@ One of my colleagues is a fan of Rust - and I decided to write a program in
 Rust to see what it was like - so this is that project - a Rust rewrite of
 my version of `autojump`/`zoxide`.
 
-`z-methoxy` uses the most recent access time and the number of times that
-directory has been used to inform its selection - paths that have been recently
-used have increased weight and directories that use used many times have higher
-weights
+`z-methoxy` uses the most recent access time (by z-methoxy) and the
+number of times that directory has been used to inform its selection -
+paths that have been recently used have increased weight and
+directories that use used many times have higher weights
 
   - path name _fragments_ can be used (_e.g._ `cd p e git z` which will match
   "$HOME/Projects/external/git/zoxide")
@@ -42,7 +42,9 @@ weights
     number of times the path has been used and then the actual path
 
 
-In future I will rewrite the data-store to use SQL/Limbo.
+TODO:
+   - I will rewrite the data-store to use SQL/Limbo.
+   - Aging old entries (deleting them from the store)
 
 If you want to use it, make sure that `z-methoxy` is in your path
 
