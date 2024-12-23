@@ -29,12 +29,12 @@ Rust to see what it was like - so this is that project - a Rust rewrite of
 my version of `autojump`/`zoxide`.
 
 `z-methoxy` uses the most recent access time (by z-methoxy) and the
-number of times that directory has been used to inform its selection -
+number of times that directory has been used to weight its selection options -
 paths that have been recently used have increased weight and
-directories that use used many times have higher weights
+directories that are used many times have higher weights.
 
   - path name _fragments_ can be used (_e.g._ `cd p e git z` which will match
-  "$HOME/Projects/external/git/zoxide")
+    "$HOME/Projects/external/git/zoxide")
   - The match for the path components is case insensitive
   - the path components fragments are matched in order
   - the last path component must match the last directory in the path
