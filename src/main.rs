@@ -320,8 +320,6 @@ impl History {
     // and rename
     fn write_history(&self) {
 
-        println!("#debug:: in write_history()");
-
         let state_dir_name = self.get_history_state_dir_name();
         let state_dir_path = std::path::PathBuf::from(&state_dir_name);
         if ! state_dir_path.exists() {
@@ -340,35 +338,15 @@ impl History {
                 for item in &self.items {
                     let last_used_str = item.last_used.to_string();
                     let times_used_str = format!("{: >4}", item.times_used);
-                    if let Err(e) = file.write_all(last_used_str.as_bytes()) {
-                        println!("# Failed to write PathBuf {}", e);
-			failed = true;
-			break;
-		    }
-                    if let Err(e) = file.write_all(b" ") {
-                        println!("# Failed to write PathBuf {}", e);
-			failed = true;
-			break;
-		    }
-                    if let Err(e) = file.write_all(times_used_str.as_bytes()) {
-                        println!("# Failed to write PathBuf {}", e);
-			failed = true;
-			break;
-		    }
-                    if let Err(e) = file.write_all(b" ") {
-                        println!("# Failed to write PathBuf {}", e);
-			failed = true;
-			break;
-		    }
-                    if let Err(e) = file.write_all(item.directory_name.to_str().unwrap().to_string().as_bytes()) {
-                        println!("# Failed to write PathBuf {}", e);
-			failed = true;
-			break;
-                    }
-                    if let Err(e) = file.write_all(b"\n") {
-                        println!("# Failed to write PathBuf {}", e);
-			failed = true;
-			break;
+		    let dns = item.directory_name.to_string_lossy();
+		    let dnsb = dns.as_bytes();
+		    let parts = [last_used_str.as_bytes(), b" ", times_used_str.as_bytes(), b" ", dnsb, b"\n"];
+		    for part in parts {
+			if let Err(e) = file.write_all(part) {
+                            println!("# Failed to write PathBuf {}", e);
+			    failed = true;
+			    break;
+			}
 		    }
                 }
 
@@ -394,7 +372,6 @@ impl History {
                 println!("{} {}", err_message, e);
             }
         }
-
     }
 
     fn handle_dash(& mut self) {
