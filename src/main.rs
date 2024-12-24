@@ -388,7 +388,7 @@ impl History {
 			}
                     }
 		}
-	    }
+	    },
 	    Err(e) => {
                 let err_message = String::from("# Could not open history tmp file ") + &file_name_tmp;
                 println!("{} {}", err_message, e);
