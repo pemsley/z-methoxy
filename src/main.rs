@@ -336,34 +336,60 @@ impl History {
         match std::fs::File::create(&file_name_tmp) {
             Ok(mut file) => {
 
-                let es = String::from("# Could not write to file ") + &file_name_tmp;
+		let mut failed = false;
                 for item in &self.items {
                     let last_used_str = item.last_used.to_string();
                     let times_used_str = format!("{: >4}", item.times_used);
-                    file.write_all(last_used_str.as_bytes()).expect(&es);
-                    file.write_all(b" ").expect(&es);
-                    file.write_all(times_used_str.as_bytes()).expect(&es);
-                    file.write_all(b" ").expect(&es);
+                    if let Err(e) = file.write_all(last_used_str.as_bytes()) {
+                        println!("# Failed to write PathBuf {}", e);
+			failed = true;
+			break;
+		    }
+                    if let Err(e) = file.write_all(b" ") {
+                        println!("# Failed to write PathBuf {}", e);
+			failed = true;
+			break;
+		    }
+                    if let Err(e) = file.write_all(times_used_str.as_bytes()) {
+                        println!("# Failed to write PathBuf {}", e);
+			failed = true;
+			break;
+		    }
+                    if let Err(e) = file.write_all(b" ") {
+                        println!("# Failed to write PathBuf {}", e);
+			failed = true;
+			break;
+		    }
                     if let Err(e) = file.write_all(item.directory_name.to_str().unwrap().to_string().as_bytes()) {
                         println!("# Failed to write PathBuf {}", e);
+			failed = true;
+			break;
                     }
-                    file.write_all(b"\n").expect(&es);
+                    if let Err(e) = file.write_all(b"\n") {
+                        println!("# Failed to write PathBuf {}", e);
+			failed = true;
+			break;
+		    }
                 }
-                match file.flush() {
-                    Ok(()) => {
-                        // if OK, then rename
-                        let file_name = self.get_history_file_name();
-                        if let Err(e) = std::fs::rename(&file_name_tmp, file_name) {
-                            println!("# Failed to rename {} {}", &file_name_tmp, e);
-                        }
+
+		// try to rename the file only if we didn't fail
+		if ! failed {
+                    match file.flush() {
+			Ok(()) => {
+                            // if flush OK, then rename
+                            let file_name = self.get_history_file_name();
+                            if let Err(e) = std::fs::rename(&file_name_tmp, file_name) {
+				println!("# Failed to rename {} {}", &file_name_tmp, e);
+                            }
+			},
+			Err(e) => {
+                            let message = "# Failed to flush";
+                            println!("{} {} {}", message, &file_name_tmp, e);
+			}
                     }
-                    Err(e) => {
-                        let message = "# Failed to flush";
-                        println!("{} {} {}", message, &file_name_tmp, e);
-                    }
-                }
-            },
-            Err(e) => {
+		}
+	    }
+	    Err(e) => {
                 let err_message = String::from("# Could not open history tmp file ") + &file_name_tmp;
                 println!("{} {}", err_message, e);
             }

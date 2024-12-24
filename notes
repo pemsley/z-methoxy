@@ -9,3 +9,13 @@ https://snapcraft.io/install/copilot-client/arch#install
 Todo:
    z-methoxy remove <dirname>
 
+
+---
+Tue 24 Dec 2024 10:54:23 GMT
+
+$ z-methoxy stuff/codes
+#debug:: in write_history()
+thread 'main' panicked at src/main.rs:343:62:
+# Could not write to file /home/paule/.local/share/z-methoxy/history-tmp: Os { code: 28, kind: StorageFull, message: "No space left on device" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
